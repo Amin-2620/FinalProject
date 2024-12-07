@@ -1,65 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Product Inspection</title>
+    <title>Test Model Loading</title>
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script>
-        // Interactive Component for Detecting Defective Items
-        AFRAME.registerComponent('detect-defective', {
-            init: function () {
-                this.el.addEventListener('click', () => {
-                    if (this.el.classList.contains('defective')) {
-                        this.el.setAttribute('color', 'red'); // Highlight defective items
-                        console.log('Defective item detected!');
-                    } else {
-                        console.log('Item is fine.');
-                    }
-                });
-            }
-        });
-
-        // Conveyor Belt Movement Component
-        AFRAME.registerComponent('conveyor-move', {
-            schema: {
-                speed: {type: 'number', default: 0.01}
-            },
-            tick: function () {
-                const position = this.el.object3D.position;
-                position.z -= this.data.speed;
-                if (position.z < -15) { // Reset position when out of view
-                    position.z = 5;
-                }
-            }
-        });
-    </script>
 </head>
 <body>
     <a-scene>
-        <!-- Assets -->
         <a-assets>
-            <!-- Preload any textures, models, or sounds here -->
-            <a-asset-item id="conveyor-texture" src="conveyor-texture.jpg"></a-asset-item>
-            <audio id="error-sound" src="error-sound.mp3"></audio>
+            <!-- Replace with your conveyor_belt.glb -->
+            <a-asset-item id="testModel" src="assets/conveyor_belt.glb"></a-asset-item>
         </a-assets>
 
-        <!-- Environment -->
-        <a-plane position="0 0 -10" rotation="-90 0 0" width="20" height="20" color="#CCCCCC"></a-plane> <!-- Floor -->
-        <a-plane position="0 5 -10" width="20" height="10" color="#AAAAAA"></a-plane> <!-- Wall -->
-        <a-light type="ambient" color="#888"></a-light>
-        <a-light type="directional" position="0 10 -5" intensity="0.8"></a-light>
+        <!-- Display the Model -->
+        <a-entity gltf-model="#testModel" position="0 0 -5" scale="1 1 1"></a-entity>
 
-        <!-- Conveyor Belt -->
-        <a-box position="0 0.5 -5" width="5" height="0.2" depth="2" color="#444444" conveyor-move></a-box>
-
-        <!-- Products -->
-        <a-box position="-1 0.6 5" width="0.5" height="0.5" depth="0.5" color="#228B22" detect-defective></a-box> <!-- Product 1 -->
-        <a-box position="1 0.6 7" width="0.5" height="0.5" depth="0.5" color="#1E90FF" class="defective" detect-defective></a-box> <!-- Defective -->
-        <a-box position="0 0.6 9" width="0.5" height="0.5" depth="0.5" color="#FFD700" detect-defective></a-box> <!-- Product 2 -->
-
-        <!-- Camera and Interaction -->
-        <a-camera position="0 1.6 3" look-controls>
-            <a-cursor color="red"></a-cursor>
-        </a-camera>
+        <!-- Camera -->
+        <a-camera position="0 2 5" look-controls></a-camera>
     </a-scene>
 </body>
 </html>
